@@ -1,10 +1,9 @@
-import  torch.utils.data as data
-import  os
-import  os.path
-import  errno
+from torch.utils.data import Dataset
+import os
+import errno
 
 
-class Omniglot(data.Dataset):
+class Omniglot(Dataset):
     urls = [
         'https://github.com/brendenlake/omniglot/raw/master/python/images_background.zip',
         'https://github.com/brendenlake/omniglot/raw/master/python/images_evaluation.zip'
