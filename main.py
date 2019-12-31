@@ -10,7 +10,7 @@ Usage Instructions:
     20-way, 1-shot omniglot:
         python main.py --datasource=omniglot --metatrain_iterations=60000 --meta_batch_size=16 --update_batch_size=1 --num_classes=20 --update_lr=0.1 --num_updates=5 --logdir=logs/omniglot20way/
     5-way 1-shot mini imagenet:
-        python main.py --datasource=miniimagenet --metatrain_iterations=60000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=logs/miniimagenet1shot/ --num_filters=32 --max_pool=True
+        python main.py --datasource miniimagenet --epoch 60000 --task_num 4 --class_num 5--update_batch_size=1 --inner_lr=0.01 --num_updates=5 --num_classes=5 --img_size 84 84 --data_folder C:/Users/haoyu/Pictures/miniimagenet --
     5-way 5-shot mini imagenet:
         python main.py --datasource=miniimagenet --metatrain_iterations=60000 --meta_batch_size=4 --update_batch_size=5 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=logs/miniimagenet5shot/ --num_filters=32 --max_pool=True
 """
@@ -33,11 +33,15 @@ def train(epoch):
         x_test = x[:, train_batch_size:].to(device)
         y_test = y[:, train_batch_size:].to(device)
     elif args.data_source == 'omniglot':
-        x_train, y_train, x_test, y_test = data_generator.generate(mode='test')
+        x_train, y_train, x_test, y_test = data_generator.generate(mode='train')
         x_train = torch.from_numpy(x_train).to(device=device, dtype=torch.float)
         y_train = torch.from_numpy(y_train).to(device=device, dtype=torch.long)
         x_test = torch.from_numpy(x_test).to(device=device, dtype=torch.float)
         y_test = torch.from_numpy(y_test).to(device=device, dtype=torch.long)
+    elif args.data_source == 'miniimagenet':
+        data_loader = data_generator.generate(mode='train')
+        x_train, y_train, x_test, y_test = next(data_loader)
+        x_train, y_train, x_test, y_test = x_train.to(device), y_train.to(device), x_test.to(device), y_test.to(device)
     else:
         raise NotImplementedError
     output = maml(x_train, y_train, x_test)
@@ -70,6 +74,10 @@ def test(epoch):
         y_train = torch.from_numpy(y_train).to(device=device, dtype=torch.long)
         x_test = torch.from_numpy(x_test).to(device=device, dtype=torch.float)
         y_test = torch.from_numpy(y_test).to(device=device, dtype=torch.long)
+    elif args.data_source == 'miniimagenet':
+        data_loader = data_generator.generate(mode='test')
+        x_train, y_train, x_test, y_test = next(data_loader)
+        x_train, y_train, x_test, y_test = x_train.to(device), y_train.to(device), x_test.to(device), y_test.to(device)
     else:
         raise NotImplementedError
     summary = maml.fine_tuning(x_train, y_train, x_test, y_test)
@@ -100,8 +108,10 @@ if __name__ == "__main__":
     argparser.add_argument('--outer_lr', type=float, default=0.001, help='the base learning rate of the generator')
     argparser.add_argument('--inner_step', type=int, default=5, help='number of inner gradient updates during training.')
     argparser.add_argument('--inner_lr', type=float, default=0.4, help='step size alpha for inner gradient update.')
+    # testing options
+    argparser.add_argument('--tuning_step', type=int, default=10, help='number of inner gradient updates during testing.')
     # options for sinusoid data
-    argparser.add_argument('--amp_range', type=float, nargs=2 default=[0.1, 5.0], help='range of amplitude.')
+    argparser.add_argument('--amp_range', type=float, nargs=2, default=[0.1, 5.0], help='range of amplitude.')
     argparser.add_argument('--phase_range', type=float, nargs=2, default=[0, np.pi], help='range of phase.')
     argparser.add_argument('--input_range', type=float, nargs=2, default=[-5.0, 5.0], help='range of input.')
     # options for omniglot data
@@ -125,6 +135,11 @@ if __name__ == "__main__":
         print('  None')
     
     device = torch.device(args.device)
+    np.random.seed(1)
+    torch.manual_seed(1)
+    if device == 'cuda':
+        torch.cuda.manual_seed_all(1)
+        
     maml = Outer(args).to(device)
     print('\nModel:')
     print(maml.model)
@@ -132,12 +147,14 @@ if __name__ == "__main__":
     print('Total trainable parameters: {}'.format(parameter_num))
     outer_optimizer = optim.Adam(maml.parameters(), lr=args.outer_lr)
     data_generator = DataGenerator(args)
+    
     if args.data_source == 'sinusoid':
         PRINT_INTERVAL = 1000
         TEST_PRINT_INTERVAL = PRINT_INTERVAL*5
     else:
         PRINT_INTERVAL = 100
         TEST_PRINT_INTERVAL = PRINT_INTERVAL*5
+    
     print('\nTraining on {}.\n'.format(args.device))
     for epoch in range(args.epoch + 1):
         train(epoch)

@@ -18,6 +18,7 @@ class Outer(nn.Module):
         super(Outer, self).__init__()
         self.task_num = args.task_num
         self.inner_step = args.inner_step
+        self.tuning_step = args.tuning_step
         self.inner_lr = args.inner_lr
         self.class_num = args.class_num
         self.train_sample_size_per_class = args.train_sample_size_per_class
@@ -49,7 +50,7 @@ class Outer(nn.Module):
                          ('bn', [64]),
                          ('flatten', []),
                          ('linear', [self.class_num, 64])]
-        elif arg.data_source == 'miniimagenet':
+        elif args.data_source == 'miniimagenet':
             self.classification = True
             self.loss_func = F.cross_entropy
             if config is None:
@@ -117,14 +118,15 @@ class Outer(nn.Module):
         :param y_test:   [task_num, class_num*test_sample_size_per_class, output_size]
         :return:
         """
+        task_num = x_train.shape[0]
         # record the first training error and all-step test errors during fine-tuning
-        loss_summary = np.zeros(self.inner_step + 2)
+        loss_summary = np.zeros(self.tuning_step + 2)
         if self.classification: 
-            accuracy_summary = np.zeros(self.inner_step + 2)
+            accuracy_summary = np.zeros(self.tuning_step + 2)
         
         model = deepcopy(self.model)
               
-        for i in range(self.task_num):
+        for i in range(task_num):
             # the first step of the inner loop
             output_inner = model(x_train[i], model.parameters(), bn_training=True) #logits
             loss_inner = self.loss_func(output_inner, y_train[i]) #loss = F.cross_entropy(logits, y_spt[i])
@@ -153,7 +155,7 @@ class Outer(nn.Module):
                     y_pred_test = F.softmax(output_test, dim=1).argmax(dim=1)
                     accuracy_summary[2] += torch.eq(y_pred_test, y_test[i]).to(torch.float).mean().item()
             # the rest of the inner loop
-            for j in range(1, self.inner_step):
+            for j in range(1, self.tuning_step):
                 output_inner = model(x_train[i], fast_weights, bn_training=True)
                 loss_inner = self.loss_func(output_inner, y_train[i])
                 grad = torch.autograd.grad(loss_inner, fast_weights)
@@ -168,6 +170,6 @@ class Outer(nn.Module):
             
         del model 
         if self.classification:
-            return loss_summary/self.task_num, accuracy_summary/self.task_num
+            return loss_summary/task_num, accuracy_summary/task_num
         else:
-            return loss_summary/self.task_num
+            return loss_summary/task_num

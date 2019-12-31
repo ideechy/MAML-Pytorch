@@ -1,6 +1,8 @@
 from torch.utils.data import Dataset
+import torchvision.transforms as transforms
+import numpy as np
+from PIL import Image
 import os
-import errno
 
 
 class Omniglot(Dataset):
@@ -10,8 +12,6 @@ class Omniglot(Dataset):
     ]
     raw_folder = 'raw'
     processed_folder = 'processed'
-    training_file = 'training.pt'
-    test_file = 'test.pt'
 
     '''
     The items are (filename,category). The index of all the categories can be found in self.idx_classes
@@ -22,18 +22,18 @@ class Omniglot(Dataset):
     - download: need to download the dataset
     '''
 
-    def __init__(self, root, transform=None, target_transform=None, download=False):
-        self.root = root
-        self.transform = transform
-        self.target_transform = target_transform
-
+    def __init__(self, args, download=False):
+        self.data_folder = args.data_folder
+        self.transform = transforms.Compose([lambda x: Image.open(x).convert('L'),
+                                             lambda x: x.resize(tuple(args.img_size)),
+                                             lambda x: np.expand_dims(x, 0),
+                                             lambda x: x/255.])
         if not self._check_exists():
             if download:
                 self.download()
             else:
                 raise RuntimeError('Dataset not found.' + ' You can use download=True to download it')
-
-        self.all_items = find_classes(os.path.join(self.root, self.processed_folder))
+        self.all_items = find_classes(os.path.join(self.data_folder, self.processed_folder))
         self.idx_classes = index_classes(self.all_items)
 
     def __getitem__(self, index):
@@ -43,8 +43,6 @@ class Omniglot(Dataset):
         target = self.idx_classes[self.all_items[index][1]]
         if self.transform is not None:
             img = self.transform(img)
-        if self.target_transform is not None:
-            target = self.target_transform(target)
 
         return img, target
 
@@ -52,20 +50,21 @@ class Omniglot(Dataset):
         return len(self.all_items)
 
     def _check_exists(self):
-        return os.path.exists(os.path.join(self.root, self.processed_folder, "images_evaluation")) and \
-               os.path.exists(os.path.join(self.root, self.processed_folder, "images_background"))
+        return os.path.exists(os.path.join(self.data_folder, self.processed_folder, "images_evaluation")) and \
+               os.path.exists(os.path.join(self.data_folder, self.processed_folder, "images_background"))
 
     def download(self):
         from six.moves import urllib
         import zipfile
+        import errno
 
         if self._check_exists():
             return
 
         # download files
         try:
-            os.makedirs(os.path.join(self.root, self.raw_folder))
-            os.makedirs(os.path.join(self.root, self.processed_folder))
+            os.makedirs(os.path.join(self.data_folder, self.raw_folder))
+            os.makedirs(os.path.join(self.data_folder, self.processed_folder))
         except OSError as e:
             if e.errno == errno.EEXIST:
                 pass
@@ -76,10 +75,10 @@ class Omniglot(Dataset):
             print('== Downloading ' + url)
             data = urllib.request.urlopen(url)
             filename = url.rpartition('/')[2]
-            file_path = os.path.join(self.root, self.raw_folder, filename)
+            file_path = os.path.join(self.data_folder, self.raw_folder, filename)
             with open(file_path, 'wb') as f:
                 f.write(data.read())
-            file_processed = os.path.join(self.root, self.processed_folder)
+            file_processed = os.path.join(self.data_folder, self.processed_folder)
             print("== Unzip from " + file_path + " to " + file_processed)
             zip_ref = zipfile.ZipFile(file_path, 'r')
             zip_ref.extractall(file_processed)

@@ -1,8 +1,8 @@
 import  numpy as np
 import os
 from omniglot import Omniglot
-import torchvision.transforms as transforms
-from PIL import Image
+from miniimagenet import MiniImagenet
+from torch.utils.data import DataLoader
 from collections import defaultdict
 
 class DataGenerator(object):
@@ -26,18 +26,12 @@ class DataGenerator(object):
         elif args.data_source == 'omniglot':
             assert self.sample_size_per_class <= 20
             self.generate = self.load_omniglot_batch
-            self.img_size = tuple(args.img_size)
-            #self.dim_input = args.img_size[0] * args.img_size[1]
             self.dim_output = self.class_num
             self.data_filename = 'omniglot_' + str(args.img_size[0]) + 'x' + str(args.img_size[0]) + '.npy'
             #load processed data or download and process the original data
             if not os.path.isfile(os.path.join(args.data_folder, self.data_filename)):
                 # if root/data.npy does not exist, just download it
-                omniglot = Omniglot(args.data_folder, download=True,
-                                    transform=transforms.Compose([lambda x: Image.open(x).convert('L'),
-                                                                  lambda x: x.resize(self.img_size),
-                                                                  lambda x: np.expand_dims(x, 0),
-                                                                  lambda x: x/255.]))
+                omniglot = Omniglot(args, download=True)
                 temp = defaultdict(list)  # {label:img1, img2..., 20 imgs, label2: img1, img2,... in total, 1623 label}
                 for (img, label) in omniglot:
                     temp[label].append(img)
@@ -50,12 +44,16 @@ class DataGenerator(object):
                 # if data.npy exists, just load it.
                 self.omniglot_data = np.load(os.path.join(args.data_folder, self.data_filename))
                 print('\nLoad data from ' + self.data_filename)    
-            self.datasets = {"train": self.omniglot_data[:1200], "test": self.omniglot_data[1200:]}
-            print('Training data size: {}, test data size: {}'. format(self.datasets["train"].shape, self.datasets["test"].shape))
+            self.datasets = {'train': self.omniglot_data[:1200], 'test': self.omniglot_data[1200:]}
+            print('Training data size: {}, test data size: {}'. format(self.datasets['train'].shape, self.datasets['test'].shape))
             # save pointer of current read batch in total cache
-            self.indexes = {"train": 0, "test": 0}
-            self.datasets_cache = {"train": self.preload_omniglot_data_cache(self.datasets["train"]),  # current epoch data cached
-                                   "test": self.preload_omniglot_data_cache(self.datasets["test"])}
+            self.indexes = {'train': 0, 'test': 0}
+            self.datasets_cache = {'train': self.preload_omniglot_data_cache(self.datasets['train']),  # current epoch data cached
+                                   'test': self.preload_omniglot_data_cache(self.datasets['test'])}
+        elif args.data_source == 'miniimagenet':
+            self.generate = self.load_miniimagenet_batch
+            self.datasets = {"train": MiniImagenet(args, mode='train', total_task_num=10000),
+                             "test": MiniImagenet(args, mode='test', total_task_num=100)}
         else:
             raise NotImplementedError
         
@@ -109,3 +107,10 @@ class DataGenerator(object):
         batch = self.datasets_cache[mode][self.indexes[mode]]
         self.indexes[mode] += 1
         return batch
+    
+    def load_miniimagenet_batch(self, mode='train'):
+        batch_size = self.task_num if mode == 'train' else self.datasets[mode].total_task_num
+        dataloader = DataLoader(self.datasets[mode], batch_size, shuffle=True, num_workers=0, pin_memory=True)
+        while True:
+            for batch in dataloader:
+                yield batch
