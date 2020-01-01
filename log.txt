@@ -1,0 +1,832 @@
+1-shot 5-way classification on miniimagenet data.
+
+Configurations:
+Inner loop:
+  Training batch size: 1
+  Test batch size: 15
+  Training step: 5
+  Learning rate: 0.01
+Outer loop:
+  Batch size: 4
+  Training step: 60000
+  Learning rate: 0.001
+Data options:
+  Image size: (84, 84)
+
+Model:
+Inner(
+  conv2d:(ch_in:3, ch_out:32, k:3x3, stride:1, padding:0)
+  relu:(True,)
+  bn:(32,)
+  max_pool2d:(k:2, stride:2, padding:0)
+  conv2d:(ch_in:32, ch_out:32, k:3x3, stride:1, padding:0)
+  relu:(True,)
+  bn:(32,)
+  max_pool2d:(k:2, stride:2, padding:0)
+  conv2d:(ch_in:32, ch_out:32, k:3x3, stride:1, padding:0)
+  relu:(True,)
+  bn:(32,)
+  max_pool2d:(k:2, stride:2, padding:0)
+  conv2d:(ch_in:32, ch_out:32, k:3x3, stride:1, padding:0)
+  relu:(True,)
+  bn:(32,)
+  max_pool2d:(k:2, stride:1, padding:0)
+  flatten:()
+  linear:(in:800, out:5)
+
+  (vars): ParameterList(
+      (0): Parameter containing: [torch.cuda.FloatTensor of size 32x3x3x3 (GPU 0)]
+      (1): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (2): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (3): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (4): Parameter containing: [torch.cuda.FloatTensor of size 32x32x3x3 (GPU 0)]
+      (5): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (6): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (7): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (8): Parameter containing: [torch.cuda.FloatTensor of size 32x32x3x3 (GPU 0)]
+      (9): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (10): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (11): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (12): Parameter containing: [torch.cuda.FloatTensor of size 32x32x3x3 (GPU 0)]
+      (13): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (14): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (15): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (16): Parameter containing: [torch.cuda.FloatTensor of size 5x800 (GPU 0)]
+      (17): Parameter containing: [torch.cuda.FloatTensor of size 5 (GPU 0)]
+  )
+  (vars_bn): ParameterList(
+      (0): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (1): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (2): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (3): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (4): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (5): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (6): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+      (7): Parameter containing: [torch.cuda.FloatTensor of size 32 (GPU 0)]
+  )
+)
+Total trainable parameters: 32901
+
+Training on cuda.
+
+Epoch     0 train loss: 2.6708, accuracy: 0.2300
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 0
+| Step 0 train loss: 2.4467, accuracy: 0.2220
+| Step 0  test loss: 2.4237, accuracy: 0.2027
+| Step 1  test loss: 2.4658, accuracy: 0.2371
+| Step 2  test loss: 2.4505, accuracy: 0.2355
+| Step 3  test loss: 2.4488, accuracy: 0.2353
+| Step 4  test loss: 2.4477, accuracy: 0.2359
+| Step 5  test loss: 2.4469, accuracy: 0.2365
++--------------------------------------------------
+Epoch   100 train loss: 1.8426, accuracy: 0.2633
+Epoch   200 train loss: 1.7117, accuracy: 0.3000
+Epoch   300 train loss: 1.6087, accuracy: 0.3333
+Epoch   400 train loss: 1.4118, accuracy: 0.3700
+Epoch   500 train loss: 1.2786, accuracy: 0.4700
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 500
+| Step 0 train loss: 1.6720, accuracy: 0.1840
+| Step 0  test loss: 1.6676, accuracy: 0.1953
+| Step 1  test loss: 1.6021, accuracy: 0.2665
+| Step 2  test loss: 1.6010, accuracy: 0.2861
+| Step 3  test loss: 1.6127, accuracy: 0.2941
+| Step 4  test loss: 1.6262, accuracy: 0.2961
+| Step 5  test loss: 1.6393, accuracy: 0.2977
++--------------------------------------------------
+Epoch   600 train loss: 1.4096, accuracy: 0.3733
+Epoch   700 train loss: 1.4678, accuracy: 0.3500
+Epoch   800 train loss: 1.6282, accuracy: 0.2800
+Epoch   900 train loss: 1.5458, accuracy: 0.3367
+Epoch  1000 train loss: 1.3988, accuracy: 0.4067
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 1000
+| Step 0 train loss: 1.6789, accuracy: 0.1780
+| Step 0  test loss: 1.6690, accuracy: 0.1897
+| Step 1  test loss: 1.5905, accuracy: 0.2672
+| Step 2  test loss: 1.5561, accuracy: 0.3001
+| Step 3  test loss: 1.5434, accuracy: 0.3196
+| Step 4  test loss: 1.5401, accuracy: 0.3285
+| Step 5  test loss: 1.5413, accuracy: 0.3324
++--------------------------------------------------
+Epoch  1100 train loss: 1.3161, accuracy: 0.5100
+Epoch  1200 train loss: 1.4525, accuracy: 0.4100
+Epoch  1300 train loss: 1.4338, accuracy: 0.4100
+Epoch  1400 train loss: 1.3660, accuracy: 0.3867
+Epoch  1500 train loss: 1.4392, accuracy: 0.3533
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 1500
+| Step 0 train loss: 1.6353, accuracy: 0.1980
+| Step 0  test loss: 1.6415, accuracy: 0.1988
+| Step 1  test loss: 1.5674, accuracy: 0.2824
+| Step 2  test loss: 1.5328, accuracy: 0.3175
+| Step 3  test loss: 1.5187, accuracy: 0.3293
+| Step 4  test loss: 1.5145, accuracy: 0.3349
+| Step 5  test loss: 1.5150, accuracy: 0.3383
++--------------------------------------------------
+Epoch  1600 train loss: 1.4651, accuracy: 0.3600
+Epoch  1700 train loss: 1.4211, accuracy: 0.3767
+Epoch  1800 train loss: 1.4107, accuracy: 0.4133
+Epoch  1900 train loss: 1.3723, accuracy: 0.4500
+Epoch  2000 train loss: 1.2790, accuracy: 0.4767
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 2000
+| Step 0 train loss: 1.6531, accuracy: 0.2120
+| Step 0  test loss: 1.6457, accuracy: 0.2035
+| Step 1  test loss: 1.5551, accuracy: 0.2976
+| Step 2  test loss: 1.5117, accuracy: 0.3423
+| Step 3  test loss: 1.4921, accuracy: 0.3544
+| Step 4  test loss: 1.4843, accuracy: 0.3581
+| Step 5  test loss: 1.4822, accuracy: 0.3609
++--------------------------------------------------
+Epoch  2100 train loss: 1.3453, accuracy: 0.4800
+Epoch  2200 train loss: 1.3758, accuracy: 0.4233
+Epoch  2300 train loss: 1.3836, accuracy: 0.3967
+Epoch  2400 train loss: 1.4706, accuracy: 0.3667
+Epoch  2500 train loss: 1.3571, accuracy: 0.4433
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 2500
+| Step 0 train loss: 1.6338, accuracy: 0.2020
+| Step 0  test loss: 1.6375, accuracy: 0.2023
+| Step 1  test loss: 1.5368, accuracy: 0.3268
+| Step 2  test loss: 1.4873, accuracy: 0.3708
+| Step 3  test loss: 1.4645, accuracy: 0.3808
+| Step 4  test loss: 1.4551, accuracy: 0.3877
+| Step 5  test loss: 1.4520, accuracy: 0.3892
++--------------------------------------------------
+Epoch  2600 train loss: 1.2510, accuracy: 0.4600
+Epoch  2700 train loss: 1.4209, accuracy: 0.3500
+Epoch  2800 train loss: 1.4671, accuracy: 0.3967
+Epoch  2900 train loss: 1.4528, accuracy: 0.3600
+Epoch  3000 train loss: 1.4099, accuracy: 0.4133
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 3000
+| Step 0 train loss: 1.6353, accuracy: 0.2120
+| Step 0  test loss: 1.6435, accuracy: 0.2033
+| Step 1  test loss: 1.5273, accuracy: 0.3196
+| Step 2  test loss: 1.4781, accuracy: 0.3548
+| Step 3  test loss: 1.4590, accuracy: 0.3681
+| Step 4  test loss: 1.4528, accuracy: 0.3719
+| Step 5  test loss: 1.4523, accuracy: 0.3744
++--------------------------------------------------
+Epoch  3100 train loss: 1.5707, accuracy: 0.3233
+Epoch  3200 train loss: 1.2979, accuracy: 0.4767
+Epoch  3300 train loss: 1.4335, accuracy: 0.3700
+Epoch  3400 train loss: 1.2994, accuracy: 0.4533
+Epoch  3500 train loss: 1.3118, accuracy: 0.4633
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 3500
+| Step 0 train loss: 1.6264, accuracy: 0.1820
+| Step 0  test loss: 1.6306, accuracy: 0.2041
+| Step 1  test loss: 1.5254, accuracy: 0.3283
+| Step 2  test loss: 1.4762, accuracy: 0.3664
+| Step 3  test loss: 1.4555, accuracy: 0.3788
+| Step 4  test loss: 1.4469, accuracy: 0.3849
+| Step 5  test loss: 1.4446, accuracy: 0.3876
++--------------------------------------------------
+Epoch  3600 train loss: 1.4695, accuracy: 0.3533
+Epoch  3700 train loss: 1.3483, accuracy: 0.4267
+Epoch  3800 train loss: 1.3557, accuracy: 0.4400
+Epoch  3900 train loss: 1.2283, accuracy: 0.5167
+Epoch  4000 train loss: 1.2723, accuracy: 0.5000
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 4000
+| Step 0 train loss: 1.6691, accuracy: 0.1780
+| Step 0  test loss: 1.6477, accuracy: 0.1985
+| Step 1  test loss: 1.5213, accuracy: 0.3303
+| Step 2  test loss: 1.4720, accuracy: 0.3701
+| Step 3  test loss: 1.4543, accuracy: 0.3808
+| Step 4  test loss: 1.4485, accuracy: 0.3880
+| Step 5  test loss: 1.4483, accuracy: 0.3888
++--------------------------------------------------
+Epoch  4100 train loss: 1.3449, accuracy: 0.4400
+Epoch  4200 train loss: 1.3562, accuracy: 0.4167
+Epoch  4300 train loss: 1.3847, accuracy: 0.3867
+Epoch  4400 train loss: 1.3075, accuracy: 0.4900
+Epoch  4500 train loss: 1.5382, accuracy: 0.3933
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 4500
+| Step 0 train loss: 1.6650, accuracy: 0.1900
+| Step 0  test loss: 1.6665, accuracy: 0.2015
+| Step 1  test loss: 1.5090, accuracy: 0.3263
+| Step 2  test loss: 1.4520, accuracy: 0.3751
+| Step 3  test loss: 1.4303, accuracy: 0.3908
+| Step 4  test loss: 1.4222, accuracy: 0.3967
+| Step 5  test loss: 1.4198, accuracy: 0.3996
++--------------------------------------------------
+Epoch  4600 train loss: 1.3320, accuracy: 0.4700
+Epoch  4700 train loss: 1.3874, accuracy: 0.4333
+Epoch  4800 train loss: 1.2963, accuracy: 0.4967
+Epoch  4900 train loss: 1.4082, accuracy: 0.4300
+Epoch  5000 train loss: 1.2586, accuracy: 0.4900
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 5000
+| Step 0 train loss: 1.6332, accuracy: 0.2200
+| Step 0  test loss: 1.6489, accuracy: 0.1973
+| Step 1  test loss: 1.4896, accuracy: 0.3657
+| Step 2  test loss: 1.4318, accuracy: 0.4003
+| Step 3  test loss: 1.4107, accuracy: 0.4101
+| Step 4  test loss: 1.4022, accuracy: 0.4145
+| Step 5  test loss: 1.4001, accuracy: 0.4160
++--------------------------------------------------
+Epoch  5100 train loss: 1.5064, accuracy: 0.3933
+Epoch  5200 train loss: 1.2597, accuracy: 0.5200
+Epoch  5300 train loss: 1.4062, accuracy: 0.4067
+Epoch  5400 train loss: 1.3478, accuracy: 0.4567
+Epoch  5500 train loss: 1.4219, accuracy: 0.3967
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 5500
+| Step 0 train loss: 1.6394, accuracy: 0.2120
+| Step 0  test loss: 1.6433, accuracy: 0.1964
+| Step 1  test loss: 1.4652, accuracy: 0.3883
+| Step 2  test loss: 1.4072, accuracy: 0.4189
+| Step 3  test loss: 1.3878, accuracy: 0.4269
+| Step 4  test loss: 1.3805, accuracy: 0.4332
+| Step 5  test loss: 1.3790, accuracy: 0.4329
++--------------------------------------------------
+Epoch  5600 train loss: 1.3580, accuracy: 0.4267
+Epoch  5700 train loss: 1.2842, accuracy: 0.4700
+Epoch  5800 train loss: 1.3610, accuracy: 0.4433
+Epoch  5900 train loss: 1.1504, accuracy: 0.5900
+Epoch  6000 train loss: 1.4194, accuracy: 0.3933
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 6000
+| Step 0 train loss: 1.6516, accuracy: 0.2240
+| Step 0  test loss: 1.6621, accuracy: 0.1988
+| Step 1  test loss: 1.4806, accuracy: 0.3556
+| Step 2  test loss: 1.4271, accuracy: 0.3919
+| Step 3  test loss: 1.4103, accuracy: 0.4044
+| Step 4  test loss: 1.4052, accuracy: 0.4108
+| Step 5  test loss: 1.4051, accuracy: 0.4147
++--------------------------------------------------
+Epoch  6100 train loss: 1.2699, accuracy: 0.4833
+Epoch  6200 train loss: 1.2634, accuracy: 0.5133
+Epoch  6300 train loss: 1.2857, accuracy: 0.4933
+Epoch  6400 train loss: 1.3170, accuracy: 0.4600
+Epoch  6500 train loss: 1.2904, accuracy: 0.4900
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 6500
+| Step 0 train loss: 1.6429, accuracy: 0.1840
+| Step 0  test loss: 1.6392, accuracy: 0.2036
+| Step 1  test loss: 1.4559, accuracy: 0.3773
+| Step 2  test loss: 1.4061, accuracy: 0.4053
+| Step 3  test loss: 1.3908, accuracy: 0.4136
+| Step 4  test loss: 1.3862, accuracy: 0.4181
+| Step 5  test loss: 1.3860, accuracy: 0.4201
++--------------------------------------------------
+Epoch  6600 train loss: 1.1797, accuracy: 0.5700
+Epoch  6700 train loss: 1.3764, accuracy: 0.4267
+Epoch  6800 train loss: 1.3483, accuracy: 0.4567
+Epoch  6900 train loss: 1.2942, accuracy: 0.4433
+Epoch  7000 train loss: 1.3714, accuracy: 0.4500
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 7000
+| Step 0 train loss: 1.6738, accuracy: 0.2180
+| Step 0  test loss: 1.6750, accuracy: 0.2019
+| Step 1  test loss: 1.4692, accuracy: 0.3661
+| Step 2  test loss: 1.4260, accuracy: 0.3923
+| Step 3  test loss: 1.4162, accuracy: 0.4031
+| Step 4  test loss: 1.4156, accuracy: 0.4059
+| Step 5  test loss: 1.4184, accuracy: 0.4081
++--------------------------------------------------
+Epoch  7100 train loss: 1.3283, accuracy: 0.4700
+Epoch  7200 train loss: 1.2581, accuracy: 0.4633
+Epoch  7300 train loss: 1.3865, accuracy: 0.4333
+Epoch  7400 train loss: 1.2907, accuracy: 0.4600
+Epoch  7500 train loss: 1.1767, accuracy: 0.5333
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 7500
+| Step 0 train loss: 1.6537, accuracy: 0.1900
+| Step 0  test loss: 1.6634, accuracy: 0.1936
+| Step 1  test loss: 1.4605, accuracy: 0.3792
+| Step 2  test loss: 1.4195, accuracy: 0.4029
+| Step 3  test loss: 1.4107, accuracy: 0.4080
+| Step 4  test loss: 1.4107, accuracy: 0.4096
+| Step 5  test loss: 1.4137, accuracy: 0.4121
++--------------------------------------------------
+Epoch  7600 train loss: 1.3142, accuracy: 0.4367
+Epoch  7700 train loss: 1.2505, accuracy: 0.4600
+Epoch  7800 train loss: 1.2318, accuracy: 0.5300
+Epoch  7900 train loss: 1.4113, accuracy: 0.3900
+Epoch  8000 train loss: 1.1904, accuracy: 0.4900
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 8000
+| Step 0 train loss: 1.6656, accuracy: 0.2160
+| Step 0  test loss: 1.6808, accuracy: 0.1884
+| Step 1  test loss: 1.4552, accuracy: 0.3695
+| Step 2  test loss: 1.4109, accuracy: 0.3971
+| Step 3  test loss: 1.4004, accuracy: 0.4049
+| Step 4  test loss: 1.3990, accuracy: 0.4089
+| Step 5  test loss: 1.4004, accuracy: 0.4104
++--------------------------------------------------
+Epoch  8100 train loss: 1.2143, accuracy: 0.5367
+Epoch  8200 train loss: 1.2789, accuracy: 0.4567
+Epoch  8300 train loss: 1.1859, accuracy: 0.5200
+Epoch  8400 train loss: 1.3320, accuracy: 0.4133
+Epoch  8500 train loss: 1.4102, accuracy: 0.3733
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 8500
+| Step 0 train loss: 1.6267, accuracy: 0.2400
+| Step 0  test loss: 1.6581, accuracy: 0.1887
+| Step 1  test loss: 1.4156, accuracy: 0.3983
+| Step 2  test loss: 1.3782, accuracy: 0.4211
+| Step 3  test loss: 1.3698, accuracy: 0.4264
+| Step 4  test loss: 1.3690, accuracy: 0.4275
+| Step 5  test loss: 1.3709, accuracy: 0.4288
++--------------------------------------------------
+Epoch  8600 train loss: 1.0788, accuracy: 0.5500
+Epoch  8700 train loss: 1.3245, accuracy: 0.4667
+Epoch  8800 train loss: 1.1791, accuracy: 0.5067
+Epoch  8900 train loss: 1.1224, accuracy: 0.5633
+Epoch  9000 train loss: 1.1319, accuracy: 0.5767
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 9000
+| Step 0 train loss: 1.6351, accuracy: 0.2100
+| Step 0  test loss: 1.6438, accuracy: 0.2063
+| Step 1  test loss: 1.4111, accuracy: 0.4072
+| Step 2  test loss: 1.3729, accuracy: 0.4232
+| Step 3  test loss: 1.3633, accuracy: 0.4271
+| Step 4  test loss: 1.3618, accuracy: 0.4269
+| Step 5  test loss: 1.3632, accuracy: 0.4268
++--------------------------------------------------
+Epoch  9100 train loss: 1.1474, accuracy: 0.5133
+Epoch  9200 train loss: 1.3982, accuracy: 0.4267
+Epoch  9300 train loss: 1.1309, accuracy: 0.5567
+Epoch  9400 train loss: 1.1134, accuracy: 0.5633
+Epoch  9500 train loss: 1.2505, accuracy: 0.5000
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 9500
+| Step 0 train loss: 1.6389, accuracy: 0.2120
+| Step 0  test loss: 1.6565, accuracy: 0.2024
+| Step 1  test loss: 1.4070, accuracy: 0.4101
+| Step 2  test loss: 1.3738, accuracy: 0.4291
+| Step 3  test loss: 1.3667, accuracy: 0.4365
+| Step 4  test loss: 1.3666, accuracy: 0.4383
+| Step 5  test loss: 1.3687, accuracy: 0.4377
++--------------------------------------------------
+Epoch  9600 train loss: 1.0796, accuracy: 0.5867
+Epoch  9700 train loss: 1.1748, accuracy: 0.5167
+Epoch  9800 train loss: 1.5015, accuracy: 0.3533
+Epoch  9900 train loss: 1.1272, accuracy: 0.5267
+Epoch 10000 train loss: 1.1678, accuracy: 0.5300
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 10000
+| Step 0 train loss: 1.6326, accuracy: 0.2200
+| Step 0  test loss: 1.6456, accuracy: 0.2009
+| Step 1  test loss: 1.4240, accuracy: 0.4028
+| Step 2  test loss: 1.4022, accuracy: 0.4119
+| Step 3  test loss: 1.4012, accuracy: 0.4129
+| Step 4  test loss: 1.4049, accuracy: 0.4147
+| Step 5  test loss: 1.4098, accuracy: 0.4172
++--------------------------------------------------
+Epoch 10100 train loss: 1.3977, accuracy: 0.4167
+Epoch 10200 train loss: 1.3093, accuracy: 0.4667
+Epoch 10300 train loss: 1.2539, accuracy: 0.4967
+Epoch 10400 train loss: 1.2394, accuracy: 0.4833
+Epoch 10500 train loss: 1.1763, accuracy: 0.5367
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 10500
+| Step 0 train loss: 1.6831, accuracy: 0.2060
+| Step 0  test loss: 1.6905, accuracy: 0.1923
+| Step 1  test loss: 1.4028, accuracy: 0.4115
+| Step 2  test loss: 1.3657, accuracy: 0.4304
+| Step 3  test loss: 1.3554, accuracy: 0.4356
+| Step 4  test loss: 1.3532, accuracy: 0.4372
+| Step 5  test loss: 1.3536, accuracy: 0.4365
++--------------------------------------------------
+Epoch 10600 train loss: 1.3510, accuracy: 0.4633
+Epoch 10700 train loss: 1.2677, accuracy: 0.4900
+Epoch 10800 train loss: 1.3209, accuracy: 0.4200
+Epoch 10900 train loss: 1.1956, accuracy: 0.5200
+Epoch 11000 train loss: 1.3119, accuracy: 0.4533
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 11000
+| Step 0 train loss: 1.6543, accuracy: 0.1800
+| Step 0  test loss: 1.6424, accuracy: 0.2059
+| Step 1  test loss: 1.3983, accuracy: 0.4011
+| Step 2  test loss: 1.3773, accuracy: 0.4132
+| Step 3  test loss: 1.3748, accuracy: 0.4161
+| Step 4  test loss: 1.3768, accuracy: 0.4175
+| Step 5  test loss: 1.3803, accuracy: 0.4199
++--------------------------------------------------
+Epoch 11100 train loss: 1.2690, accuracy: 0.4600
+Epoch 11200 train loss: 1.0344, accuracy: 0.6000
+Epoch 11300 train loss: 1.1521, accuracy: 0.5500
+Epoch 11400 train loss: 1.2754, accuracy: 0.4633
+Epoch 11500 train loss: 1.2268, accuracy: 0.5367
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 11500
+| Step 0 train loss: 1.6738, accuracy: 0.1800
+| Step 0  test loss: 1.6596, accuracy: 0.2013
+| Step 1  test loss: 1.3935, accuracy: 0.4088
+| Step 2  test loss: 1.3698, accuracy: 0.4221
+| Step 3  test loss: 1.3666, accuracy: 0.4245
+| Step 4  test loss: 1.3680, accuracy: 0.4285
+| Step 5  test loss: 1.3711, accuracy: 0.4303
++--------------------------------------------------
+Epoch 11600 train loss: 1.2248, accuracy: 0.5367
+Epoch 11700 train loss: 1.1850, accuracy: 0.5233
+Epoch 11800 train loss: 1.1334, accuracy: 0.5167
+Epoch 11900 train loss: 1.2020, accuracy: 0.5200
+Epoch 12000 train loss: 1.2403, accuracy: 0.5000
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 12000
+| Step 0 train loss: 1.6222, accuracy: 0.2100
+| Step 0  test loss: 1.6362, accuracy: 0.2048
+| Step 1  test loss: 1.3653, accuracy: 0.4309
+| Step 2  test loss: 1.3469, accuracy: 0.4403
+| Step 3  test loss: 1.3451, accuracy: 0.4405
+| Step 4  test loss: 1.3471, accuracy: 0.4411
+| Step 5  test loss: 1.3505, accuracy: 0.4397
++--------------------------------------------------
+Epoch 12100 train loss: 1.2949, accuracy: 0.4600
+Epoch 12200 train loss: 1.2734, accuracy: 0.4900
+Epoch 12300 train loss: 1.3276, accuracy: 0.4367
+Epoch 12400 train loss: 1.5162, accuracy: 0.3700
+Epoch 12500 train loss: 1.1662, accuracy: 0.5433
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 12500
+| Step 0 train loss: 1.6690, accuracy: 0.1980
+| Step 0  test loss: 1.6848, accuracy: 0.1879
+| Step 1  test loss: 1.4255, accuracy: 0.3913
+| Step 2  test loss: 1.4039, accuracy: 0.4051
+| Step 3  test loss: 1.4015, accuracy: 0.4072
+| Step 4  test loss: 1.4036, accuracy: 0.4072
+| Step 5  test loss: 1.4071, accuracy: 0.4093
++--------------------------------------------------
+Epoch 12600 train loss: 1.2623, accuracy: 0.4867
+Epoch 12700 train loss: 1.1603, accuracy: 0.5400
+Epoch 12800 train loss: 1.0543, accuracy: 0.6133
+Epoch 12900 train loss: 1.1483, accuracy: 0.5433
+Epoch 13000 train loss: 1.2731, accuracy: 0.5200
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 13000
+| Step 0 train loss: 1.6700, accuracy: 0.2160
+| Step 0  test loss: 1.6693, accuracy: 0.2015
+| Step 1  test loss: 1.4050, accuracy: 0.4017
+| Step 2  test loss: 1.3892, accuracy: 0.4108
+| Step 3  test loss: 1.3890, accuracy: 0.4148
+| Step 4  test loss: 1.3923, accuracy: 0.4160
+| Step 5  test loss: 1.3964, accuracy: 0.4175
++--------------------------------------------------
+Epoch 13100 train loss: 1.0634, accuracy: 0.6067
+Epoch 13200 train loss: 1.0223, accuracy: 0.6033
+Epoch 13300 train loss: 1.1789, accuracy: 0.5367
+Epoch 13400 train loss: 1.1953, accuracy: 0.5200
+Epoch 13500 train loss: 1.0703, accuracy: 0.5833
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 13500
+| Step 0 train loss: 1.6457, accuracy: 0.1920
+| Step 0  test loss: 1.6525, accuracy: 0.1943
+| Step 1  test loss: 1.3798, accuracy: 0.4123
+| Step 2  test loss: 1.3647, accuracy: 0.4169
+| Step 3  test loss: 1.3636, accuracy: 0.4213
+| Step 4  test loss: 1.3659, accuracy: 0.4252
+| Step 5  test loss: 1.3691, accuracy: 0.4259
++--------------------------------------------------
+Epoch 13600 train loss: 1.2204, accuracy: 0.5067
+Epoch 13700 train loss: 1.3617, accuracy: 0.4167
+Epoch 13800 train loss: 1.1940, accuracy: 0.5067
+Epoch 13900 train loss: 0.9032, accuracy: 0.7000
+Epoch 14000 train loss: 1.2096, accuracy: 0.5067
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 14000
+| Step 0 train loss: 1.6412, accuracy: 0.2220
+| Step 0  test loss: 1.6539, accuracy: 0.2036
+| Step 1  test loss: 1.3575, accuracy: 0.4252
+| Step 2  test loss: 1.3411, accuracy: 0.4380
+| Step 3  test loss: 1.3396, accuracy: 0.4429
+| Step 4  test loss: 1.3412, accuracy: 0.4427
+| Step 5  test loss: 1.3439, accuracy: 0.4432
++--------------------------------------------------
+Epoch 14100 train loss: 1.4449, accuracy: 0.4267
+Epoch 14200 train loss: 1.1844, accuracy: 0.5100
+Epoch 14300 train loss: 1.2055, accuracy: 0.5367
+Epoch 14400 train loss: 1.1649, accuracy: 0.5167
+Epoch 14500 train loss: 1.2577, accuracy: 0.4667
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 14500
+| Step 0 train loss: 1.6671, accuracy: 0.2060
+| Step 0  test loss: 1.6665, accuracy: 0.2056
+| Step 1  test loss: 1.3344, accuracy: 0.4420
+| Step 2  test loss: 1.3194, accuracy: 0.4485
+| Step 3  test loss: 1.3178, accuracy: 0.4532
+| Step 4  test loss: 1.3197, accuracy: 0.4513
+| Step 5  test loss: 1.3227, accuracy: 0.4511
++--------------------------------------------------
+Epoch 14600 train loss: 1.2493, accuracy: 0.5000
+Epoch 14700 train loss: 1.1388, accuracy: 0.5500
+Epoch 14800 train loss: 1.0198, accuracy: 0.5867
+Epoch 14900 train loss: 1.2277, accuracy: 0.4700
+Epoch 15000 train loss: 1.2042, accuracy: 0.4767
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 15000
+| Step 0 train loss: 1.6199, accuracy: 0.2120
+| Step 0  test loss: 1.6304, accuracy: 0.2044
+| Step 1  test loss: 1.3558, accuracy: 0.4313
+| Step 2  test loss: 1.3454, accuracy: 0.4373
+| Step 3  test loss: 1.3460, accuracy: 0.4384
+| Step 4  test loss: 1.3493, accuracy: 0.4399
+| Step 5  test loss: 1.3533, accuracy: 0.4413
++--------------------------------------------------
+Epoch 15100 train loss: 1.3246, accuracy: 0.4633
+Epoch 15200 train loss: 1.0028, accuracy: 0.6267
+Epoch 15300 train loss: 1.1212, accuracy: 0.5433
+Epoch 15400 train loss: 1.2005, accuracy: 0.5367
+Epoch 15500 train loss: 1.3866, accuracy: 0.4767
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 15500
+| Step 0 train loss: 1.6519, accuracy: 0.2200
+| Step 0  test loss: 1.6546, accuracy: 0.2023
+| Step 1  test loss: 1.3574, accuracy: 0.4209
+| Step 2  test loss: 1.3437, accuracy: 0.4291
+| Step 3  test loss: 1.3432, accuracy: 0.4303
+| Step 4  test loss: 1.3453, accuracy: 0.4295
+| Step 5  test loss: 1.3482, accuracy: 0.4301
++--------------------------------------------------
+Epoch 15600 train loss: 1.3549, accuracy: 0.4333
+Epoch 15700 train loss: 1.2539, accuracy: 0.4467
+Epoch 15800 train loss: 1.1336, accuracy: 0.5767
+Epoch 15900 train loss: 1.0528, accuracy: 0.5800
+Epoch 16000 train loss: 1.2152, accuracy: 0.4867
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 16000
+| Step 0 train loss: 1.6734, accuracy: 0.1860
+| Step 0  test loss: 1.6804, accuracy: 0.1964
+| Step 1  test loss: 1.3714, accuracy: 0.4172
+| Step 2  test loss: 1.3615, accuracy: 0.4235
+| Step 3  test loss: 1.3626, accuracy: 0.4283
+| Step 4  test loss: 1.3656, accuracy: 0.4292
+| Step 5  test loss: 1.3693, accuracy: 0.4315
++--------------------------------------------------
+Epoch 16100 train loss: 1.2079, accuracy: 0.5133
+Epoch 16200 train loss: 1.1642, accuracy: 0.5533
+Epoch 16300 train loss: 1.1010, accuracy: 0.5633
+Epoch 16400 train loss: 1.3825, accuracy: 0.4033
+Epoch 16500 train loss: 1.0762, accuracy: 0.5633
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 16500
+| Step 0 train loss: 1.6418, accuracy: 0.2140
+| Step 0  test loss: 1.6444, accuracy: 0.2091
+| Step 1  test loss: 1.3809, accuracy: 0.4172
+| Step 2  test loss: 1.3712, accuracy: 0.4280
+| Step 3  test loss: 1.3735, accuracy: 0.4293
+| Step 4  test loss: 1.3776, accuracy: 0.4273
+| Step 5  test loss: 1.3822, accuracy: 0.4281
++--------------------------------------------------
+Epoch 16600 train loss: 1.1181, accuracy: 0.5500
+Epoch 16700 train loss: 1.2311, accuracy: 0.4800
+Epoch 16800 train loss: 1.2079, accuracy: 0.4867
+Epoch 16900 train loss: 1.0299, accuracy: 0.6067
+Epoch 17000 train loss: 1.2247, accuracy: 0.5167
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 17000
+| Step 0 train loss: 1.6326, accuracy: 0.2000
+| Step 0  test loss: 1.6504, accuracy: 0.2112
+| Step 1  test loss: 1.3812, accuracy: 0.4261
+| Step 2  test loss: 1.3769, accuracy: 0.4316
+| Step 3  test loss: 1.3797, accuracy: 0.4331
+| Step 4  test loss: 1.3840, accuracy: 0.4336
+| Step 5  test loss: 1.3884, accuracy: 0.4353
++--------------------------------------------------
+Epoch 17100 train loss: 1.0896, accuracy: 0.5767
+Epoch 17200 train loss: 1.1263, accuracy: 0.5867
+Epoch 17300 train loss: 1.3268, accuracy: 0.4167
+Epoch 17400 train loss: 1.1189, accuracy: 0.5533
+Epoch 17500 train loss: 1.0742, accuracy: 0.5600
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 17500
+| Step 0 train loss: 1.6747, accuracy: 0.1900
+| Step 0  test loss: 1.6955, accuracy: 0.1900
+| Step 1  test loss: 1.4093, accuracy: 0.3997
+| Step 2  test loss: 1.4046, accuracy: 0.4115
+| Step 3  test loss: 1.4079, accuracy: 0.4153
+| Step 4  test loss: 1.4127, accuracy: 0.4179
+| Step 5  test loss: 1.4177, accuracy: 0.4192
++--------------------------------------------------
+Epoch 17600 train loss: 1.0133, accuracy: 0.6167
+Epoch 17700 train loss: 1.3065, accuracy: 0.4733
+Epoch 17800 train loss: 1.1855, accuracy: 0.5300
+Epoch 17900 train loss: 1.2222, accuracy: 0.5233
+Epoch 18000 train loss: 1.2902, accuracy: 0.4900
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 18000
+| Step 0 train loss: 1.6596, accuracy: 0.1800
+| Step 0  test loss: 1.6514, accuracy: 0.2036
+| Step 1  test loss: 1.3341, accuracy: 0.4396
+| Step 2  test loss: 1.3257, accuracy: 0.4481
+| Step 3  test loss: 1.3273, accuracy: 0.4509
+| Step 4  test loss: 1.3308, accuracy: 0.4513
+| Step 5  test loss: 1.3349, accuracy: 0.4512
++--------------------------------------------------
+Epoch 18100 train loss: 0.9871, accuracy: 0.6400
+Epoch 18200 train loss: 1.1014, accuracy: 0.5567
+Epoch 18300 train loss: 1.2902, accuracy: 0.4700
+Epoch 18400 train loss: 1.0511, accuracy: 0.6067
+Epoch 18500 train loss: 1.0783, accuracy: 0.5667
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 18500
+| Step 0 train loss: 1.6559, accuracy: 0.2260
+| Step 0  test loss: 1.6432, accuracy: 0.2104
+| Step 1  test loss: 1.3219, accuracy: 0.4361
+| Step 2  test loss: 1.3165, accuracy: 0.4424
+| Step 3  test loss: 1.3189, accuracy: 0.4441
+| Step 4  test loss: 1.3225, accuracy: 0.4452
+| Step 5  test loss: 1.3265, accuracy: 0.4465
++--------------------------------------------------
+Epoch 18600 train loss: 1.0704, accuracy: 0.5633
+Epoch 18700 train loss: 1.2290, accuracy: 0.4667
+Epoch 18800 train loss: 1.1921, accuracy: 0.4833
+Epoch 18900 train loss: 1.1986, accuracy: 0.5100
+Epoch 19000 train loss: 1.3926, accuracy: 0.4200
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 19000
+| Step 0 train loss: 1.6774, accuracy: 0.1920
+| Step 0  test loss: 1.6805, accuracy: 0.1980
+| Step 1  test loss: 1.3636, accuracy: 0.4228
+| Step 2  test loss: 1.3610, accuracy: 0.4288
+| Step 3  test loss: 1.3640, accuracy: 0.4280
+| Step 4  test loss: 1.3684, accuracy: 0.4287
+| Step 5  test loss: 1.3727, accuracy: 0.4287
++--------------------------------------------------
+Epoch 19100 train loss: 1.0117, accuracy: 0.5967
+Epoch 19200 train loss: 1.1753, accuracy: 0.4900
+Epoch 19300 train loss: 1.1016, accuracy: 0.6000
+Epoch 19400 train loss: 0.9550, accuracy: 0.6400
+Epoch 19500 train loss: 1.1062, accuracy: 0.5733
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 19500
+| Step 0 train loss: 1.6856, accuracy: 0.1960
+| Step 0  test loss: 1.6811, accuracy: 0.1840
+| Step 1  test loss: 1.3490, accuracy: 0.4269
+| Step 2  test loss: 1.3433, accuracy: 0.4337
+| Step 3  test loss: 1.3451, accuracy: 0.4376
+| Step 4  test loss: 1.3485, accuracy: 0.4379
+| Step 5  test loss: 1.3523, accuracy: 0.4385
++--------------------------------------------------
+Epoch 19600 train loss: 0.9134, accuracy: 0.6300
+Epoch 19700 train loss: 1.2112, accuracy: 0.4800
+Epoch 19800 train loss: 1.3963, accuracy: 0.4400
+Epoch 19900 train loss: 1.2940, accuracy: 0.4733
+Epoch 20000 train loss: 1.1860, accuracy: 0.5333
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 20000
+| Step 0 train loss: 1.6373, accuracy: 0.2060
+| Step 0  test loss: 1.6665, accuracy: 0.2009
+| Step 1  test loss: 1.3438, accuracy: 0.4309
+| Step 2  test loss: 1.3396, accuracy: 0.4353
+| Step 3  test loss: 1.3419, accuracy: 0.4351
+| Step 4  test loss: 1.3455, accuracy: 0.4352
+| Step 5  test loss: 1.3493, accuracy: 0.4363
++--------------------------------------------------
+Epoch 20100 train loss: 1.0569, accuracy: 0.6000
+Epoch 20200 train loss: 0.9813, accuracy: 0.5933
+Epoch 20300 train loss: 1.0956, accuracy: 0.5700
+Epoch 20400 train loss: 1.0553, accuracy: 0.5533
+Epoch 20500 train loss: 1.3518, accuracy: 0.4300
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 20500
+| Step 0 train loss: 1.6648, accuracy: 0.1780
+| Step 0  test loss: 1.6668, accuracy: 0.2025
+| Step 1  test loss: 1.3389, accuracy: 0.4264
+| Step 2  test loss: 1.3306, accuracy: 0.4383
+| Step 3  test loss: 1.3317, accuracy: 0.4431
+| Step 4  test loss: 1.3344, accuracy: 0.4455
+| Step 5  test loss: 1.3377, accuracy: 0.4464
++--------------------------------------------------
+Epoch 20600 train loss: 1.2148, accuracy: 0.5267
+Epoch 20700 train loss: 1.0812, accuracy: 0.5467
+Epoch 20800 train loss: 1.2995, accuracy: 0.4833
+Epoch 20900 train loss: 1.1306, accuracy: 0.5533
+Epoch 21000 train loss: 1.0612, accuracy: 0.5533
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 21000
+| Step 0 train loss: 1.6802, accuracy: 0.2080
+| Step 0  test loss: 1.6959, accuracy: 0.2059
+| Step 1  test loss: 1.4256, accuracy: 0.3976
+| Step 2  test loss: 1.4249, accuracy: 0.4020
+| Step 3  test loss: 1.4309, accuracy: 0.4065
+| Step 4  test loss: 1.4371, accuracy: 0.4069
+| Step 5  test loss: 1.4431, accuracy: 0.4084
++--------------------------------------------------
+Epoch 21100 train loss: 1.1252, accuracy: 0.5433
+Epoch 21200 train loss: 0.9585, accuracy: 0.6400
+Epoch 21300 train loss: 1.1819, accuracy: 0.4767
+Epoch 21400 train loss: 1.4677, accuracy: 0.3967
+Epoch 21500 train loss: 1.0359, accuracy: 0.6100
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 21500
+| Step 0 train loss: 1.6728, accuracy: 0.1780
+| Step 0  test loss: 1.6587, accuracy: 0.2092
+| Step 1  test loss: 1.3380, accuracy: 0.4409
+| Step 2  test loss: 1.3344, accuracy: 0.4432
+| Step 3  test loss: 1.3364, accuracy: 0.4456
+| Step 4  test loss: 1.3397, accuracy: 0.4465
+| Step 5  test loss: 1.3434, accuracy: 0.4469
++--------------------------------------------------
+Epoch 21600 train loss: 1.1211, accuracy: 0.5367
+Epoch 21700 train loss: 1.1338, accuracy: 0.5900
+Epoch 21800 train loss: 1.2485, accuracy: 0.4233
+Epoch 21900 train loss: 1.0842, accuracy: 0.5567
+Epoch 22000 train loss: 0.9623, accuracy: 0.6433
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 22000
+| Step 0 train loss: 1.6774, accuracy: 0.1840
+| Step 0  test loss: 1.6748, accuracy: 0.1889
+| Step 1  test loss: 1.3297, accuracy: 0.4405
+| Step 2  test loss: 1.3250, accuracy: 0.4496
+| Step 3  test loss: 1.3267, accuracy: 0.4525
+| Step 4  test loss: 1.3298, accuracy: 0.4532
+| Step 5  test loss: 1.3331, accuracy: 0.4521
++--------------------------------------------------
+Epoch 22100 train loss: 1.0689, accuracy: 0.5800
+Epoch 22200 train loss: 1.2010, accuracy: 0.4900
+Epoch 22300 train loss: 1.1693, accuracy: 0.5767
+Epoch 22400 train loss: 1.1752, accuracy: 0.5333
+Epoch 22500 train loss: 1.0082, accuracy: 0.6033
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 22500
+| Step 0 train loss: 1.6300, accuracy: 0.2140
+| Step 0  test loss: 1.6439, accuracy: 0.2060
+| Step 1  test loss: 1.3336, accuracy: 0.4327
+| Step 2  test loss: 1.3299, accuracy: 0.4368
+| Step 3  test loss: 1.3325, accuracy: 0.4388
+| Step 4  test loss: 1.3360, accuracy: 0.4419
+| Step 5  test loss: 1.3397, accuracy: 0.4427
++--------------------------------------------------
+Epoch 22600 train loss: 1.1288, accuracy: 0.5733
+Epoch 22700 train loss: 0.9206, accuracy: 0.6633
+Epoch 22800 train loss: 1.0737, accuracy: 0.5700
+Epoch 22900 train loss: 1.3825, accuracy: 0.4467
+Epoch 23000 train loss: 1.0884, accuracy: 0.5300
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 23000
+| Step 0 train loss: 1.6560, accuracy: 0.2180
+| Step 0  test loss: 1.6586, accuracy: 0.2108
+| Step 1  test loss: 1.3660, accuracy: 0.4231
+| Step 2  test loss: 1.3663, accuracy: 0.4309
+| Step 3  test loss: 1.3708, accuracy: 0.4313
+| Step 4  test loss: 1.3756, accuracy: 0.4320
+| Step 5  test loss: 1.3803, accuracy: 0.4317
++--------------------------------------------------
+Epoch 23100 train loss: 1.0568, accuracy: 0.5900
+Epoch 23200 train loss: 1.1460, accuracy: 0.5433
+Epoch 23300 train loss: 1.0819, accuracy: 0.5533
+Epoch 23400 train loss: 0.9652, accuracy: 0.6267
+Epoch 23500 train loss: 1.0994, accuracy: 0.5633
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 23500
+| Step 0 train loss: 1.6539, accuracy: 0.2020
+| Step 0  test loss: 1.6480, accuracy: 0.2021
+| Step 1  test loss: 1.3213, accuracy: 0.4524
+| Step 2  test loss: 1.3166, accuracy: 0.4573
+| Step 3  test loss: 1.3186, accuracy: 0.4581
+| Step 4  test loss: 1.3215, accuracy: 0.4584
+| Step 5  test loss: 1.3247, accuracy: 0.4581
++--------------------------------------------------
+Epoch 23600 train loss: 1.0034, accuracy: 0.6100
+Epoch 23700 train loss: 1.3826, accuracy: 0.4400
+Epoch 23800 train loss: 1.0575, accuracy: 0.5900
+Epoch 23900 train loss: 0.9924, accuracy: 0.6100
+Epoch 24000 train loss: 1.1157, accuracy: 0.5833
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 24000
+| Step 0 train loss: 1.6588, accuracy: 0.1900
+| Step 0  test loss: 1.6549, accuracy: 0.1892
+| Step 1  test loss: 1.3084, accuracy: 0.4555
+| Step 2  test loss: 1.3066, accuracy: 0.4592
+| Step 3  test loss: 1.3091, accuracy: 0.4616
+| Step 4  test loss: 1.3124, accuracy: 0.4615
+| Step 5  test loss: 1.3158, accuracy: 0.4629
++--------------------------------------------------
+Epoch 24100 train loss: 1.0707, accuracy: 0.5467
+Epoch 24200 train loss: 0.9746, accuracy: 0.5867
+Epoch 24300 train loss: 1.0949, accuracy: 0.5533
+Epoch 24400 train loss: 1.1854, accuracy: 0.5233
+Epoch 24500 train loss: 1.2234, accuracy: 0.5033
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 24500
+| Step 0 train loss: 1.6881, accuracy: 0.1860
+| Step 0  test loss: 1.6897, accuracy: 0.1889
+| Step 1  test loss: 1.3746, accuracy: 0.4201
+| Step 2  test loss: 1.3779, accuracy: 0.4284
+| Step 3  test loss: 1.3846, accuracy: 0.4283
+| Step 4  test loss: 1.3909, accuracy: 0.4305
+| Step 5  test loss: 1.3969, accuracy: 0.4312
++--------------------------------------------------
+Epoch 24600 train loss: 1.1262, accuracy: 0.5433
+Epoch 24700 train loss: 1.2382, accuracy: 0.4933
+Epoch 24800 train loss: 1.1537, accuracy: 0.5300
+Epoch 24900 train loss: 1.0954, accuracy: 0.5933
+Epoch 25000 train loss: 1.0577, accuracy: 0.5700
++--------------------------------------------------
+| Fine-tuning using meta parameter from epoch 25000
+| Step 0 train loss: 1.6695, accuracy: 0.1880
+| Step 0  test loss: 1.6766, accuracy: 0.1987
+| Step 1  test loss: 1.3723, accuracy: 0.4229
+| Step 2  test loss: 1.3724, accuracy: 0.4279
+| Step 3  test loss: 1.3766, accuracy: 0.4321
+| Step 4  test loss: 1.3813, accuracy: 0.4339
+| Step 5  test loss: 1.3858, accuracy: 0.4336
++--------------------------------------------------
