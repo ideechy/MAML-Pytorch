@@ -1,18 +1,15 @@
 """
 Usage Instructions:
     10-shot sinusoid:
-        python main.py --data_source sinusoid --logdir=logs/sine/ --metatrain_iterations=70000 --norm=None --update_batch_size=10
-    10-shot sinusoid baselines:
-        python main.py --datasource=sinusoid --logdir=logs/sine/ --pretrain_iterations=70000 --metatrain_iterations=0 --norm=None --update_batch_size=10 --baseline=oracle
-        python main.py --datasource=sinusoid --logdir=logs/sine/ --pretrain_iterations=70000 --metatrain_iterations=0 --norm=None --update_batch_size=10
+        python main.py --data_source sinusoid --task_num 25 --class_num 5 --train_sample_size_per_class 10 --inner_lr 0.001 --inner_step 1
     5-way, 1-shot omniglot:
-        python main.py --datasource=omniglot --metatrain_iterations=60000 --meta_batch_size=32 --update_batch_size=1 --update_lr=0.4 --num_updates=1 --logdir=logs/omniglot5way/
+        python main.py --datasource omniglot --task_num 32 --class_num 5 --train_sample_size_per_class 1 --inner_lr 0.4 --inner_step 1 --img_size [28, 28] --data_folder path/to/omniglot
     20-way, 1-shot omniglot:
-        python main.py --datasource=omniglot --metatrain_iterations=60000 --meta_batch_size=16 --update_batch_size=1 --num_classes=20 --update_lr=0.1 --num_updates=5 --logdir=logs/omniglot20way/
+        python main.py --datasource omniglot --task_num 16 --class_num 20 --train_sample_size_per_class 1 --inner_lr 0.1 --inner_step 5 --img_size [28, 28] --data_folder path/to/omniglot
     5-way 1-shot mini imagenet:
-        python main.py --datasource miniimagenet --epoch 60000 --task_num 4 --class_num 5--update_batch_size=1 --inner_lr=0.01 --num_updates=5 --num_classes=5 --img_size 84 84 --data_folder C:/Users/haoyu/Pictures/miniimagenet --
+        python main.py --datasource miniimagenet --epoch 60000 --task_num 4 --class_num 5 --update_batch_size 1 --inner_lr 0.01 --inner_step 5 --img_size [84, 84] --data_folder path/to/miniimagenet
     5-way 5-shot mini imagenet:
-        python main.py --datasource=miniimagenet --metatrain_iterations=60000 --meta_batch_size=4 --update_batch_size=5 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=logs/miniimagenet5shot/ --num_filters=32 --max_pool=True
+        python main.py --datasource miniimagenet --epoch 60000 --task_num 4 --class_num 5 --update_batch_size 5 --inner_lr 0.01 --inner_step 5 --img_size [84, 84] --data_folder path/to/miniimagenet
 """
 import torch
 from torch import optim
